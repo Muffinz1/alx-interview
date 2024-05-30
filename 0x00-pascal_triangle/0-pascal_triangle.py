@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 Pascal triangle module
     - a triangle that has an arrangement of binomial coeffiecients
