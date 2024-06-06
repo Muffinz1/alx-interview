@@ -3,6 +3,7 @@
 The module of the function that can whether unlock or not
 """
 
+
 def canUnlockAll(boxes):
     """
     Defining a function that check if the boxes
