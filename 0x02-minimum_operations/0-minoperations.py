@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" 
+"""
 A module that helps in
 calculating the minimum number of operations
 in order to achieve a given number of characters
@@ -7,9 +7,9 @@ in order to achieve a given number of characters
 
 
 def minOperations(n: int) -> int:
-    """ 
-    Minimum Operations needed to get 
-    the number of H characters 
+    """
+    Minimum Operations needed to get
+    the number of H characters
     """
     if n <= 1:
         return 0
