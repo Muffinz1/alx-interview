@@ -4,6 +4,7 @@ Module for log parser
 """
 import sys
 
+
 def print_statistics(status_code_counts, total_size):
     """
     prints the file size and status code counts.
@@ -13,6 +14,8 @@ def print_statistics(status_code_counts, total_size):
         count = status_code_counts[status_code]
         if count > 0:
             print("{}: {}".format(status_code, count))
+
+
 total_file_size = 0
 line_counter = 0
 status_code_counts = {
