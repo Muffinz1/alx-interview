@@ -1,47 +1,52 @@
 #!/usr/bin/python3
+"""
+Module for log parser
+"""
 import sys
-import re
 
-
-def output(log):
+def print_statistics(status_code_counts, total_size):
     """
-    Displays the file size and the frequency of each status
+    prints the file size and status code counts.
     """
-    print(f"File size: {log['file_size']}")
-    for code in sorted(log["code_frequency"]):
-        if log["code_frequency"][code] > 0:
-            print(f"{code}: {log['code_frequency'][code]}")
+    print("File size: {}".format(total_size))
+    for status_code in sorted(status_code_counts):
+        count = status_code_counts[status_code]
+        if count > 0:
+            print("{}: {}".format(status_code, count))
+total_file_size = 0
+line_counter = 0
+status_code_counts = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0
+}
 
+try:
+    for line in sys.stdin:
+        parts = line.split()
+        if len(parts) > 2:
+            file_size_str = parts[-1]
+            status_code = parts[-2]
+            try:
+                file_size = int(file_size_str)
+                total_file_size += file_size
+                line_counter += 1
 
-def process_line(line, log):
-    """
-    process a line and updates the statistics
-    """
-    match = regex.fullmatch(line)
-    if match:
-        code = match.group(1)
-        file_size = int(match.group(2))
-        log["file_size"] += file_size
-        if code in log["code_frequency"]:
-            log["code_frequency"][code] += 1
+                if status_code in status_code_counts:
+                    status_code_counts[status_code] += 1
 
+                if line_counter == 10:
+                    print_statistics(status_code_counts, total_file_size)
+                    line_counter = 0
 
-if __name__ == "__main__":
-    regex = re.compile(r'"GET /projects/260 HTTP/1.1" (\d{3}) (\d+)')
+            except ValueError:
+                continue
 
-    line_count = 0
-    log = {
-        "file_size": 0,
-        "code_frequency": {str(code): 0 for code 
-        in [200, 301, 400, 401, 403, 404, 405, 500]}
-    }
-
-    try:
-        for line in sys.stdin:
-            line = line.strip()
-            process_line(line, log)
-            line_count += 1
-            if line_count % 10 == 0:
-                output(log)
-    finally:
-        output(log)
+finally:
+    if line_counter > 0:
+        print_statistics(status_code_counts, total_file_size)
