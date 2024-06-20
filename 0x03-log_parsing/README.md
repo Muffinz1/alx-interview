@@ -1,1 +1,8 @@
-This a read me for the log parsing file
+## Log Parsing
+# Concepts Needed
+* File I/O in Python
+* Signal Handling in Python
+* Data Processing
+* Regular Expressions
+* Dictionaries in Python
+* Exception Handling
