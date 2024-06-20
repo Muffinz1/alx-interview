@@ -5,15 +5,15 @@ Module for log parser
 import sys
 
 
-def print_statistics(status_code_counts, total_size):
+def print_stat(stat_count, delta_size):
     """
     prints the file size and status code counts.
     """
-    print("File size: {}".format(total_size))
-    for status_code in sorted(status_code_counts):
-        count = status_code_counts[status_code]
+    print("File size: {}".format(delta_size))
+    for stat_id in sorted(stat_count):
+        count = stat_count[stat_id]
         if count > 0:
-            print("{}: {}".format(status_code, count))
+            print("{}: {}".format(stat_id, count))
 
 
 total_file_size = 0
@@ -44,7 +44,7 @@ try:
                     status_code_counts[status_code] += 1
 
                 if line_counter == 10:
-                    print_statistics(status_code_counts, total_file_size)
+                    print_stat(status_code_counts, total_file_size)
                     line_counter = 0
 
             except ValueError:
@@ -52,4 +52,4 @@ try:
 
 finally:
     if line_counter > 0:
-        print_statistics(status_code_counts, total_file_size)
+        print_stat(status_code_counts, total_file_size)
