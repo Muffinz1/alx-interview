@@ -2,6 +2,7 @@
 import sys
 import re
 
+
 def output(log):
     """
     Displays the file size and the frequency of each status
@@ -10,6 +11,7 @@ def output(log):
     for code in sorted(log["code_frequency"]):
         if log["code_frequency"][code] > 0:
             print(f"{code}: {log['code_frequency'][code]}")
+
 
 def process_line(line, log):
     """
@@ -23,13 +25,15 @@ def process_line(line, log):
         if code in log["code_frequency"]:
             log["code_frequency"][code] += 1
 
+
 if __name__ == "__main__":
     regex = re.compile(r'"GET /projects/260 HTTP/1.1" (\d{3}) (\d+)')
 
     line_count = 0
     log = {
         "file_size": 0,
-        "code_frequency": {str(code): 0 for code in [200, 301, 400, 401, 403, 404, 405, 500]}
+        "code_frequency": {str(code): 0 for code 
+        in [200, 301, 400, 401, 403, 404, 405, 500]}
     }
 
     try:
