@@ -6,12 +6,13 @@ Initiating the file for N-queens:
 """
 import sys
 
+
 def main(argv):
     if len(argv) != 2:
         print("Usage: nqueens N")
         exit(1)
 
-    if argv[1].isdigit() == False:
+    if argv[1].isdigit() is False:
         print("N must be a number")
         exit(1)
 
@@ -26,13 +27,15 @@ def main(argv):
         if i < number:
             for j in range(number):
                 if j not in a and i + j not in b and i - j not in c:
-                    yield from queens(number, i + 1, a + [j], b + [i + j], c + [i - j])
+                    yield from queens(number, i + 1, a + [j], b + [i + j],
+                    c + [i - j])
         else:
             yield a
 
     solutions = list(queens(number))
     for solution in solutions:
         print([[i, solution[i]] for i in range(number)])
+
 
 if __name__ == "__main__":
     main(sys.argv)
