@@ -28,7 +28,7 @@ def main(argv):
             for j in range(number):
                 if j not in a and i + j not in b and i - j not in c:
                     yield from queens(number, i + 1, a + [j], b + [i + j],
-                     c + [i - j])
+                                        c + [i - j])
         else:
             yield a
 
