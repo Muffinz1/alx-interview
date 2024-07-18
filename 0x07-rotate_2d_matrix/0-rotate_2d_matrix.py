@@ -16,4 +16,3 @@ def rotate_2d_matrix(matrix):
     # reversing rows
     for row in matrix:
         row.reverse()
-
