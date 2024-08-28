@@ -3,7 +3,6 @@
 Initiating the file for N-queens:
     takes a number from the user for the queens
     provides the positions for queens not to intersect
-    or see each other
 """
 import sys
 
@@ -28,7 +27,8 @@ def main(argv):
         if i < number:
             for j in range(number):
                 if j not in a and i + j not in b and i - j not in c:
-                    yield from queens(number, i + 1, a + [j], b + [i + j], c + [i - j])
+                    yield from queens(number, i + 1, a + [j], b + [i + j],
+                                      c + [i - j])
         else:
             yield a
 
