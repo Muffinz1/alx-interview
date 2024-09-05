@@ -1,5 +1,5 @@
 # Alx Interview ❔
-## N Queens ♟
+## N Queens ♟♟
 ## Concepts Needed 📜
 * Backtracking Algorithms
 * Recursion
