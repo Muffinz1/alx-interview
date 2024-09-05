@@ -8,7 +8,7 @@ if (process.argv.length < 3) {
 }
 
 const movie_id = process.argv[2];
-const a_url = 'https://swapi-api.alx-tools.com/api/films/' + movie_id;
+const a_url = 'https://swapi-api.hbtn.io/api/films/' + movie_id;
 
 request(a_url, function (err, res, body) {
   if (err) {
@@ -34,5 +34,3 @@ function getCharacters(characters, index) {
     getCharacters(characters, index + 1);
   });
 }
-
-
