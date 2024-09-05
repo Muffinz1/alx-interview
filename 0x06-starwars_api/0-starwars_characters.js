@@ -8,29 +8,44 @@ if (process.argv.length < 3) {
 }
 
 const movie_id = process.argv[2];
-const a_url = 'https://swapi-api.hbtn.io/api/films/' + movie_id;
+const url = 'https://swapi-api.alx-tools.com/api/films/' + movie_id;
 
-request(a_url, function (err, res, body) {
+request(url, function (err, res, body) {
   if (err) {
-    console.log('Error:', err);
+    console.error('Error:', err);
     return;
   }
+
+  if (res.statusCode !== 200) {
+    console.error('Error: Failed to retrieve movie');
+    return;
+  }
+
   const data = JSON.parse(body);
   const characters = data.characters;
-  getCharacters(characters, 0);
+
+  printCharacters(characters, 0);
 });
 
-function getCharacters(characters, index) {
+function printCharacters(characters, index) {
   if (index >= characters.length) {
     return;
   }
+
   request(characters[index], function (err, res, body) {
     if (err) {
-      console.log('Error:', err);
+      console.error('Error:', err);
       return;
     }
+
+    if (res.statusCode !== 200) {
+      console.error('Error: Failed to retrieve character');
+      return;
+    }
+
     const character = JSON.parse(body);
     console.log(character.name);
-    getCharacters(characters, index + 1);
+
+    printCharacters(characters, index + 1);
   });
 }
