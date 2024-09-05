@@ -1,29 +1,45 @@
 #!/usr/bin/node
 
-const request = require('request-promise-native');
+const request = require('request');
 
-const fetchCharacter = async (url) => {
-  try {
-    const response = await request(url);
-    const character = JSON.parse(response).name;
-    console.log(character);
-  } catch (error) {
-    console.error(error);
-  }
+const fetchCharacter = (url, callback) => {
+  request(url, (error, response, body) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+    try {
+      const character = JSON.parse(body).name;
+      console.log(character);
+    } catch (err) {
+      console.error('Error parsing JSON:', err);
+    }
+    callback();
+  });
 };
 
-const fetchFilmCharacters = async (filmId) => {
-  try {
-    const apiUrl = `https://swapi-api.alx-tools.com/api/films/${filmId}`;
-    const response = await request(apiUrl);
-    const characters = JSON.parse(response).characters;
-
-    for (const url of characters) {
-      await fetchCharacter(url);
+const fetchFilmCharacters = (filmId) => {
+  const filmUrl = `https://swapi-api.alx-tools.com/api/films/${filmId}`;
+  
+  request(filmUrl, (error, response, body) => {
+    if (error) {
+      console.error(error);
+      return;
     }
-  } catch (error) {
-    console.error(error);
-  }
+    try {
+      const characters = JSON.parse(body).characters;
+      
+      const fetchNextCharacter = (index) => {
+        if (index < characters.length) {
+          fetchCharacter(characters[index], () => fetchNextCharacter(index + 1));
+        }
+      };
+      
+      fetchNextCharacter(0);
+    } catch (err) {
+      console.error('Error parsing JSON:', err);
+    }
+  });
 };
 
 fetchFilmCharacters(process.argv[2]);
