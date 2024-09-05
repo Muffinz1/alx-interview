@@ -1,51 +1,29 @@
 #!/usr/bin/node
 
-const request = require('request');
+const request = require('request-promise-native');
 
-if (process.argv.length < 3) {
-  console.log('Usage: node script.js <movie_id>');
-  process.exit(1);
-}
-
-const movie_id = process.argv[2];
-const url = 'https://swapi-api.alx-tools.com/api/films/' + movie_id;
-
-request(url, function (err, res, body) {
-  if (err) {
-    console.error('Error:', err);
-    return;
+const fetchCharacter = async (url) => {
+  try {
+    const response = await request(url);
+    const character = JSON.parse(response).name;
+    console.log(character);
+  } catch (error) {
+    console.error(error);
   }
+};
 
-  if (res.statusCode !== 200) {
-    console.error('Error: Failed to retrieve movie');
-    return;
-  }
+const fetchFilmCharacters = async (filmId) => {
+  try {
+    const apiUrl = `https://swapi-api.alx-tools.com/api/films/${filmId}`;
+    const response = await request(apiUrl);
+    const characters = JSON.parse(response).characters;
 
-  const data = JSON.parse(body);
-  const characters = data.characters;
-
-  printCharacters(characters, 0);
-});
-
-function printCharacters(characters, index) {
-  if (index >= characters.length) {
-    return;
-  }
-
-  request(characters[index], function (err, res, body) {
-    if (err) {
-      console.error('Error:', err);
-      return;
+    for (const url of characters) {
+      await fetchCharacter(url);
     }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    if (res.statusCode !== 200) {
-      console.error('Error: Failed to retrieve character');
-      return;
-    }
-
-    const character = JSON.parse(body);
-    console.log(character.name);
-
-    printCharacters(characters, index + 1);
-  });
-}
+fetchFilmCharacters(process.argv[2]);
