@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """island perimeter function module"""
 
+
 def island_perimeter(grid):
     """
     Function name: island_perimeter
