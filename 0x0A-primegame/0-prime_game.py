@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """0. Prime Game - Maria and Ben are playing a game"""
 
+
 def isWinner(x, nums):
     """
     is winner function
     determines the overall winner between Maria and Ben over multiple rounds.
     """
-    
+
     if x <= 0 or nums is None or len(nums) == 0:
         return None
 
@@ -44,5 +45,3 @@ def play_game(n):
             current_player = 1 - current_player
 
     return current_player == 1
-
-
